@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 
 int partition(int* a, int p, int r){
     int x=a[r-1];
@@ -26,6 +27,24 @@ void quicksort(int*a, int p, int r){
 }
 
 
+int randomized_partition(int* a,int p,int r){
+    int i=rand()%(r-p);
+
+    int temp=a[p+i];
+    a[p+i]=a[r-1];
+    a[r-1]=temp;
+    return partition(a,p,r);
+}
+
+void randomized_quicksort(int* a, int p, int r){
+    if(p<r){
+        int q=randomized_partition(a,p,r);
+        randomized_quicksort(a,p,q-1);
+        randomized_quicksort(a,q,r);
+    }
+}
+
+
 
 int main(void){
     int a[16]={13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7};
@@ -33,20 +52,15 @@ int main(void){
     int high=15;
 
     
-    int w=partition(a,0,16);
+    //int w=randomized_partition(a,0,16);
     int i=0;
     for(i=0;i<16;i++) printf("%d ",a[i]);
-    quicksort(a,0,16);
-
-
-    printf("\n%d ",w);
     printf("\n");
+    randomized_quicksort(a,0,16);
+
+
+    //printf("\n%d ",w);
     for(i=0;i<16;i++) printf("%d ",a[i]);
-    //int* result;
-    
-    //result=find_maximum_subarray(a,low,high);
-    
-    //printf("left: %d\nright: %d\nsum: %d\n",result[0],result[1],result[2]);
 
     return 0;
 
